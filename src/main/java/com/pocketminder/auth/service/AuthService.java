@@ -7,6 +7,8 @@ import com.pocketminder.auth.entity.User;
 import com.pocketminder.auth.repository.UserRepository;
 import com.pocketminder.auth.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public User register (RegisterRequestDTO request){
         boolean exists = userRepository.findByEmail( request.getEmail() ).isPresent();
@@ -32,21 +35,18 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public AuthResponseDTO login(LoginRequestDTO request) {
-         User user = userRepository
-                 .findByEmail(request.getEmail())
-                 .orElseThrow(()-> new RuntimeException("Invalid credentials"));
+    public AuthResponseDTO login(
+            LoginRequestDTO request
+    ) {
+        authenticationManager.authenticate(
 
-         boolean matches = passwordEncoder.matches(
-                 request.getPassword(),
-                 user.getPassword()
-         );
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
 
-         if( !matches ){
-             throw new RuntimeException("Invalid credentials");
-         }
-
-         String token = jwtService.generateToken(user.getEmail());
+         String token = jwtService.generateToken(request.getEmail());
 
          return AuthResponseDTO.builder()
                  .token(token)
