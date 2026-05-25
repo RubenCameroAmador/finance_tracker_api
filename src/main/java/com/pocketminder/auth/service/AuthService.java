@@ -6,6 +6,7 @@ import com.pocketminder.auth.dto.RegisterRequestDTO;
 import com.pocketminder.auth.entity.User;
 import com.pocketminder.auth.repository.UserRepository;
 import com.pocketminder.auth.security.JwtService;
+import com.pocketminder.common.exception.EmailAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +24,9 @@ public class AuthService {
     public User register (RegisterRequestDTO request){
         boolean exists = userRepository.findByEmail( request.getEmail() ).isPresent();
         if ( exists ){
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException(
+                    "Email already exists"
+            );
         }
 
         User user = User.builder()
