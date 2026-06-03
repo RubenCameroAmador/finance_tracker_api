@@ -73,4 +73,24 @@ public class GlobalExceptionHandler {
                 .badRequest()
                 .body(error);
     }
+
+    @ExceptionHandler(
+            UnsupportedBankException.class
+    )
+    public ResponseEntity<ErrorResponseDTO>
+    handleUnsupportedBank(
+            UnsupportedBankException ex
+    ) {
+
+        ErrorResponseDTO error =
+                ErrorResponseDTO.builder()
+                        .message(ex.getMessage())
+                        .status(400)
+                        .timestamp(LocalDateTime.now())
+                        .build();
+
+        return ResponseEntity
+                .badRequest()
+                .body(error);
+    }
 }

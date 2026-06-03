@@ -1,5 +1,7 @@
-package com.pocketminder.transaction.provider.sms;
+package com.pocketminder.ingestion.sms.service;
 
+import com.pocketminder.ingestion.sms.parser.SmsParser;
+import com.pocketminder.ingestion.sms.parser.SmsParserFactory;
 import com.pocketminder.transaction.dto.InternalTransactionRequest;
 import com.pocketminder.transaction.entity.Transaction;
 import com.pocketminder.transaction.service.TransactionService;
@@ -8,12 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SmsTransactionService {
+public class SmsIngestionService {
 
     private final SmsParserFactory parserFactory;
     private final TransactionService transactionService;
 
-    public Transaction processSms(
+    public Transaction ingest(
             String message
     ) {
 

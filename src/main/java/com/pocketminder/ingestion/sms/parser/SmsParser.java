@@ -1,4 +1,4 @@
-package com.pocketminder.transaction.provider.sms;
+package com.pocketminder.ingestion.sms.parser;
 
 import com.pocketminder.transaction.dto.InternalTransactionRequest;
 

@@ -1,4 +1,4 @@
-package com.pocketminder.transaction.provider.sms.dto;
+package com.pocketminder.ingestion.sms.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

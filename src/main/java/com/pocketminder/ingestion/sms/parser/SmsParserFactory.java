@@ -1,5 +1,6 @@
-package com.pocketminder.transaction.provider.sms;
+package com.pocketminder.ingestion.sms.parser;
 
+import com.pocketminder.common.exception.UnsupportedBankException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class SmsParserFactory {
                 )
                 .findFirst()
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new UnsupportedBankException(
                                 "Unsupported bank"
                         )
                 );
