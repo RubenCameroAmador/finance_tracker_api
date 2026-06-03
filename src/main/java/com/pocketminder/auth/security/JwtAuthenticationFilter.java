@@ -41,7 +41,12 @@ public class JwtAuthenticationFilter
 
         String token = authHeader.substring(7);
 
-        String email = jwtService.extractEmail(token);
+        String email;
+        try {
+            email = jwtService.extractEmail(token);
+        } catch (Exception e) {
+            email = null;
+        }
 
         if (email != null
                 && SecurityContextHolder

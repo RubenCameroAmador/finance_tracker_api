@@ -14,7 +14,7 @@ public class BancolombiaSmsParser
     @Override
     public boolean supports(String message) {
 
-        return message.contains("Bancolombia");
+        return message != null && message.contains("Bancolombia");
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BancolombiaSmsParser
 
         TransactionType type;
 
-        if (message.contains("recibiste")) {
+        if (message.toLowerCase().contains("recibiste")) {
 
             type = TransactionType.INCOME;
 
@@ -54,7 +54,7 @@ public class BancolombiaSmsParser
 
         Pattern merchantPattern =
                 Pattern.compile(
-                        "a ([A-Z0-9\\s]+?) desde"
+                        "a ([A-Z0-9\\s']+?) desde"
                 );
 
         Matcher merchantMatcher =
